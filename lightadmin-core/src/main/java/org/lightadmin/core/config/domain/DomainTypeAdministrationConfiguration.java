@@ -28,6 +28,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.util.StringUtils.uncapitalize;
 
@@ -39,6 +40,7 @@ public class DomainTypeAdministrationConfiguration implements DomainTypeBasicCon
     private final PersistentEntity persistentEntity;
     private final ConfigurationUnits configurationUnits;
 
+    @Autowired
     public DomainTypeAdministrationConfiguration(Repositories repositories, ConfigurationUnits configurationUnits) {
         Assert.notNull(repositories, "Repositories must not be null!");
         Assert.notNull(configurationUnits, "ConfigurationUnits must not be null!");

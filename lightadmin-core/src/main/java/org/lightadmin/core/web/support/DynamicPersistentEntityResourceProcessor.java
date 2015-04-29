@@ -50,7 +50,7 @@ import static org.lightadmin.core.persistence.metamodel.PersistentPropertyType.F
 import static org.lightadmin.core.web.support.DynamicPersistentEntityResourceProcessor.PersistentEntityWrapper.persistentEntity;
 
 @SuppressWarnings(value = {"unchecked", "unused"})
-public class DynamicPersistentEntityResourceProcessor implements ResourceProcessor<PersistentEntityResource<?>> {
+public class DynamicPersistentEntityResourceProcessor implements ResourceProcessor<PersistentEntityResource> {
 
     private final GlobalAdministrationConfiguration adminConfiguration;
     private final DynamicRepositoryEntityLinks entityLinks;
@@ -67,7 +67,7 @@ public class DynamicPersistentEntityResourceProcessor implements ResourceProcess
     }
 
     @Override
-    public PersistentEntityResource<?> process(PersistentEntityResource<?> persistentEntityResource) {
+    public PersistentEntityResource process(PersistentEntityResource persistentEntityResource) {
         PersistentEntity persistentEntity = persistentEntityResource.getPersistentEntity();
         Object value = persistentEntityResource.getContent();
         Link[] links = persistentEntityResource.getLinks().toArray(new Link[persistentEntityResource.getLinks().size()]);
@@ -81,7 +81,12 @@ public class DynamicPersistentEntityResourceProcessor implements ResourceProcess
 
         PersistentEntityWrapper persistentEntityWrapper = persistentEntity(value, dynamicProperties, stringRepresentation, domainLink, managedDomainType, primaryKey);
 
-        return new PersistentEntityResource<Object>(persistentEntity, persistentEntityWrapper, links);
+        PersistentEntityResource.Builder builder = PersistentEntityResource.build(persistentEntityWrapper, persistentEntity);
+        for (Link link : links) {
+            builder.withLink(link);
+        }
+
+        return builder.build();
     }
 
     private String primaryKey(PersistentEntity persistentEntity) {

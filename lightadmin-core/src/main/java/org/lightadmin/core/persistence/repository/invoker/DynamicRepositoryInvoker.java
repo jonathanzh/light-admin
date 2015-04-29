@@ -19,9 +19,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.rest.core.invoke.RepositoryInvoker;
 
 import java.util.List;
+import org.springframework.data.repository.support.RepositoryInvoker;
 
 public interface DynamicRepositoryInvoker extends RepositoryInvoker {
 

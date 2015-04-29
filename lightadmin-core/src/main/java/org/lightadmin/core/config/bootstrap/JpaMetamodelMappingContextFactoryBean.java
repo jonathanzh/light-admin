@@ -15,6 +15,7 @@
  */
 package org.lightadmin.core.config.bootstrap;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.util.Assert;
@@ -50,7 +51,7 @@ public class JpaMetamodelMappingContextFactoryBean extends AbstractFactoryBean<J
             }
         }
 
-        JpaMetamodelMappingContext context = new JpaMetamodelMappingContext(metamodel);
+        JpaMetamodelMappingContext context = new JpaMetamodelMappingContext(Sets.newHashSet(metamodel));
         context.setInitialEntitySet(entitySources);
         context.initialize();
 

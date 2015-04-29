@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
 import java.io.Serializable;
 
 import static org.springframework.beans.PropertyAccessorFactory.forDirectFieldAccess;
+import org.springframework.data.rest.core.mapping.ResourceMappings;
 
 /**
  * Fix of Spring Data REST related defect
@@ -36,7 +37,7 @@ import static org.springframework.beans.PropertyAccessorFactory.forDirectFieldAc
 public class DynamicPersistentEntityResourceAssembler extends PersistentEntityResourceAssembler {
 
     public DynamicPersistentEntityResourceAssembler(PersistentEntityResourceAssembler resourceAssembler) {
-        super(repositories(resourceAssembler), entityLinks(resourceAssembler), projector(resourceAssembler));
+        super(repositories(resourceAssembler), entityLinks(resourceAssembler), projector(resourceAssembler), mappings(resourceAssembler));
     }
 
     /**
@@ -71,5 +72,9 @@ public class DynamicPersistentEntityResourceAssembler extends PersistentEntityRe
 
     private static Projector projector(PersistentEntityResourceAssembler persistentEntityResourceAssembler) {
         return (Projector) forDirectFieldAccess(persistentEntityResourceAssembler).getPropertyValue("projector");
+    }
+
+    private static ResourceMappings mappings(PersistentEntityResourceAssembler persistentEntityResourceAssembler) {
+        return (ResourceMappings) forDirectFieldAccess(persistentEntityResourceAssembler).getPropertyValue("mappings");
     }
 }

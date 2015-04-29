@@ -17,56 +17,36 @@ package org.lightadmin.core.web.support;
 
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.data.util.DirectFieldAccessFallbackBeanWrapper;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkBuilder;
 
 import java.io.Serializable;
+import org.springframework.data.repository.support.Repositories;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.ResourceMappings;
+import org.springframework.data.rest.webmvc.spi.BackendIdConverter;
+import org.springframework.data.rest.webmvc.support.PagingAndSortingTemplateVariables;
+import org.springframework.plugin.core.PluginRegistry;
 
 /**
  * TODO: Document me!
  *
  * @author Maxim Kharchenko (kharchenko.max@gmail.com)
  */
-public class DynamicRepositoryEntityLinks implements EntityLinks {
+public class DynamicRepositoryEntityLinks extends RepositoryEntityLinks {
 
-    private EntityLinks delegate;
-
-    private DynamicRepositoryEntityLinks(EntityLinks delegate) {
-        this.delegate = delegate;
-    }
-
-    public static DynamicRepositoryEntityLinks wrap(EntityLinks delegate) {
-        return new DynamicRepositoryEntityLinks(delegate);
+    public DynamicRepositoryEntityLinks(Repositories repositories, ResourceMappings mappings, RepositoryRestConfiguration config, PagingAndSortingTemplateVariables templateVariables, PluginRegistry<BackendIdConverter, Class<?>> idConverters) {
+        super(repositories, mappings, config, templateVariables, idConverters);
     }
 
     public Link linkForFilePropertyLink(Object instance, PersistentProperty persistentProperty) {
         PersistentEntity persistentEntity = persistentProperty.getOwner();
         Serializable id = idValue(instance, persistentEntity);
 
-        return delegate.linkForSingleResource(persistentEntity.getType(), id).slash(persistentProperty.getName()).slash("file").withSelfRel();
-    }
-
-    @Override
-    public boolean supports(Class<?> delimiter) {
-        return delegate.supports(delimiter);
-    }
-
-    @Override
-    public LinkBuilder linkFor(Class<?> type) {
-        return delegate.linkFor(type);
-    }
-
-    @Override
-    public LinkBuilder linkFor(Class<?> type, Object... parameters) {
-        return delegate.linkFor(type, parameters);
-    }
-
-    @Override
-    public Link linkToCollectionResource(Class<?> type) {
-        return delegate.linkToCollectionResource(type);
+        return super.linkForSingleResource(persistentEntity.getType(), id).slash(persistentProperty.getName()).slash("file").withSelfRel();
     }
 
     @Override
@@ -74,22 +54,7 @@ public class DynamicRepositoryEntityLinks implements EntityLinks {
         if (id == null) {
             return linkFor(type).slash("new").withSelfRel();
         }
-        return delegate.linkToSingleResource(type, id);
-    }
-
-    @Override
-    public Link linkToSingleResource(Identifiable<?> entity) {
-        return delegate.linkToSingleResource(entity);
-    }
-
-    @Override
-    public LinkBuilder linkForSingleResource(Class<?> type, Object id) {
-        return delegate.linkForSingleResource(type, id);
-    }
-
-    @Override
-    public LinkBuilder linkForSingleResource(Identifiable<?> entity) {
-        return delegate.linkForSingleResource(entity);
+        return super.linkToSingleResource(type, id);
     }
 
     private Serializable idValue(Object instance, PersistentEntity persistentEntity) {
