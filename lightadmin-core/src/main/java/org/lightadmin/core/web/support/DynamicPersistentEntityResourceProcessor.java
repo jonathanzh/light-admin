@@ -92,7 +92,7 @@ public class DynamicPersistentEntityResourceProcessor implements ResourceProcess
         DomainTypeBasicConfiguration domainTypeBasicConfiguration = adminConfiguration.forDomainType(persistentEntity.getType());
         EntityNameExtractor nameExtractor = domainTypeBasicConfiguration.getEntityConfiguration().getNameExtractor();
 
-        return exceptionAwareNameExtractor(nameExtractor, domainTypeBasicConfiguration).apply(value).toString();
+        return exceptionAwareNameExtractor(nameExtractor, domainTypeBasicConfiguration).apply(value);
     }
 
     private Link domainLink(PersistentEntityResource persistentEntityResource) {
