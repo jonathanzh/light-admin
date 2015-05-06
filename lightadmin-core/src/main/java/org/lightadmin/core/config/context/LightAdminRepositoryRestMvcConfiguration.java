@@ -33,9 +33,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.support.Repositories;
+import org.springframework.data.repository.support.RepositoryInvokerFactory;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.data.rest.core.invoke.RepositoryInvokerFactory;
 import org.springframework.data.rest.core.support.DomainObjectMerger;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.config.PersistentEntityResourceAssemblerArgumentResolver;
@@ -48,6 +48,7 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newLinkedList;
 import static org.springframework.beans.PropertyAccessorFactory.forDirectFieldAccess;
+import org.springframework.data.rest.webmvc.support.PagingAndSortingTemplateVariables;
 import static org.springframework.util.ClassUtils.isAssignableValue;
 
 @Configuration
@@ -64,8 +65,13 @@ public class LightAdminRepositoryRestMvcConfiguration extends RepositoryRestMvcC
     }
 
     @Bean
+    @Override
     public DynamicRepositoryEntityLinks entityLinks() {
-        return DynamicRepositoryEntityLinks.wrap(super.entityLinks());
+		PagingAndSortingTemplateVariables templateVariables = new ArgumentResolverPagingAndSortingTemplateVariables(
+				pageableResolver(), sortResolver());
+
+        return new DynamicRepositoryEntityLinks(repositories(), resourceMappings(), config(), templateVariables,
+				backendIdConverterRegistry());
     }
 
     @Bean
