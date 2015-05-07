@@ -31,7 +31,7 @@ public class NamingUtils {
     public static String entityName(DomainTypeAdministrationConfiguration domainTypeAdministrationConfiguration, Object entity) {
         final EntityNameExtractor nameExtractor = domainTypeAdministrationConfiguration.getEntityConfiguration().getNameExtractor();
 
-        return exceptionAwareNameExtractor(nameExtractor, domainTypeAdministrationConfiguration).apply(entity);
+        return exceptionAwareNameExtractor(nameExtractor, domainTypeAdministrationConfiguration).apply(entity).toString();
     }
 
     public static String entityId(DomainTypeAdministrationConfiguration domainTypeAdministrationConfiguration, Object entity) {
