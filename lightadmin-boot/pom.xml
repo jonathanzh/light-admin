@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.3.BUILD-SNAPSHOT</version>
+        <version>1.2.3.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -25,6 +25,15 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <springloaded.version>1.2.0.RELEASE</springloaded.version>
+
+        <!-- Override Spring Boot Versions -->
+
+        <!-- can be outcommented, then tomcat7 is used -->
+        <tomcat.version>8.0.8</tomcat.version>
+
+        <!-- next sets <spring.data.jpa.version>1.8.0.RELEASE & <spring.data.rest.webmvc.version>2.3.0.RELEASE -->
+        <spring-data-releasetrain.version>Fowler-RELEASE</spring-data-releasetrain.version>
+
     </properties>
 
     <dependencies>
