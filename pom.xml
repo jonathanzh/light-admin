@@ -21,6 +21,7 @@
         <module>lightadmin-core</module>
         <module>lightadmin-sandbox</module>
         <module>lightadmin-tests</module>
+        <module>lightadmin-boot</module>
     </modules>
 
 </project>
